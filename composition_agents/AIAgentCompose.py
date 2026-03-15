@@ -4,8 +4,8 @@ import requests
 import json
 from composition_agent import CompositionAgent
 
-PHI4_URL = "http://localhost:8001/v1/chat/completions"
-PHI4_MODEL = "gpt-oss:20b"  # Adjust if your model id is different
+LLM_MODEL_URL = "http://localhost:8001/v1/chat/completions"
+LLM_MODEL = "gpt-oss:20b"  # Adjust if your model id is different
 
 
 def llm_generate(prompt: str) -> str:
@@ -14,7 +14,7 @@ def llm_generate(prompt: str) -> str:
     Adjust this to match your actual FastAPI / server contract.
     """
     payload = {
-        "model": PHI4_MODEL,
+        "model": LLM_MODEL,
         "messages": [
             {"role": "system", "content": "You are a careful JSON-producing assistant."},
             {"role": "user", "content": prompt},
@@ -23,7 +23,7 @@ def llm_generate(prompt: str) -> str:
         "temperature": 0.2,
     }
 
-    resp = requests.post(PHI4_URL, json=payload, timeout=200)
+    resp = requests.post(LLM_MODEL, json=payload, timeout=200)
     resp.raise_for_status()
     data = resp.json()
     return data["choices"][0]["message"]["content"]
